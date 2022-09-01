@@ -1,0 +1,16 @@
+---
+title: "hmk_01.qmd"
+author: "Beatrice Caiado"
+format: gfm
+editor: visual
+---
+
+# **Homework 1**
+
+## Why?
+
+This is complicated, but with practice it will make more sense :)
+
+```{r}
+3+3
+```
