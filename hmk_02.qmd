@@ -1,0 +1,18 @@
+---
+title: "Homework 2"
+author: "Beatrice Caiado"
+format: gfm
+editor: visual
+---
+
+## Homework 2
+
+```{r, message=FALSE}
+library(tidyverse)
+a <- 2 
+b <- 4 
+a > b 
+ls() 
+rm(list=ls()) 
+ls()
+```
