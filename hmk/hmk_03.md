@@ -10,30 +10,18 @@ Use the tidyverse `read_csv()` function to read a .csv file of your own
 data. If you don’t have any data of your own, make up an excel file with
 fake data.
 
-A few notes:
+- **We have to first load tidyverse and then assign the .csv file to an
+  object so that the computer knows what to name it.**
 
-- In order to work with `read_csv()`, the first row of the spreadsheet
-  should contain the names of the columns, and all other rows should
-  contain data
-- To export the data as a .csv, go to “save as” and select File Format
-  “UTF-8 csv” or similar.
-- Save the file in the same directory as your homework `.qmd` file.
-- Quarto/knitr make a new R session when they run, and the home
-  directory of that session is the directory that the file is saved in.
-  So if your `.qmd` file is in `micr_595/hmk`, and you save the `.csv`
-  file as `micr_595/hmk/my_data.csv`, you would load the file as
-  `read_csv("my_data.csv")`.
-- Sometimes R and Excel disagree on the end of a .csv file. If you get
-  extra lines containing `NA`, don’t worry about it.
+``` r
+library(tidyverse)
 
-**We have to first assign the .csv file to an object so that the
-computer knows what to name it.**
+sample_values <- read_csv("test_dataset.csv")
+```
 
-`sample_values <- read_csv("/hmk/test_dataset.csv")`
-
-**From doing this, when we look into our global environment, we can see
-that there is a sample_values data in there meaning it was created
-successfully.**
+- **From doing this, when we look into our global environment, we can
+  see that there is a sample_values data in there meaning it was created
+  successfully.**
 
 # Investigating the properties of data frames
 
@@ -48,6 +36,32 @@ overview of the data frame. Which one do you think is more useful?
   honestly might give a bit more information with examples, but it is
   more confusing to look at.**
 
+``` r
+summary(sample_values)
+```
+
+           x           y         
+     Min.   :1   Min.   : 1.000  
+     1st Qu.:4   1st Qu.: 3.000  
+     Median :5   Median : 4.000  
+     Mean   :5   Mean   : 6.111  
+     3rd Qu.:6   3rd Qu.: 6.000  
+     Max.   :8   Max.   :23.000  
+
+``` r
+str(sample_values)
+```
+
+    spec_tbl_df [9 × 2] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+     $ x: num [1:9] 1 5 6 7 8 3 4 5 6
+     $ y: num [1:9] 1 2 23 3 4 4 5 6 7
+     - attr(*, "spec")=
+      .. cols(
+      ..   x = col_double(),
+      ..   y = col_double()
+      .. )
+     - attr(*, "problems")=<externalptr> 
+
 # Manipulating data frames
 
 Create a new column of your data frame by performing some kind of
@@ -55,14 +69,29 @@ arithmetic operation on an existing column.
 
 - **I want to crate a new column that multiplies the values in a
   previous column by 100.**
-- `sample_values$multiplied <- sample_values$x *100`
+
+``` r
+sample_values$multiplied <- sample_values$x * 100
+glimpse(sample_values)
+```
+
+    Rows: 9
+    Columns: 3
+    $ x          <dbl> 1, 5, 6, 7, 8, 3, 4, 5, 6
+    $ y          <dbl> 1, 2, 23, 3, 4, 4, 5, 6, 7
+    $ multiplied <dbl> 100, 500, 600, 700, 800, 300, 400, 500, 600
 
 # Working on columns
 
 Calculate the mean of a numeric column in your data frame.
 
 - **I chose to calculate the mean of my y column.**
-- `mean(sample_values$y)`
+
+``` r
+mean(sample_values$y)
+```
+
+    [1] 6.111111
 
 # Accessing elements of data frames
 
