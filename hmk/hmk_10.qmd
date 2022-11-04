@@ -1,0 +1,75 @@
+---
+title: "Homework 10: Decisions and loops"
+author: "Beatrice Caiado"
+format: gfm
+editor: visual
+---
+
+# Decisions
+
+Write a function that accepts the current time as a parameter and prints "Good morning", "Good afternoon", or "Good evening" depending on the time. It is fine for the time to be in numeric format (e.g., `2317` for 11:17 pm). Bonus points if the function accepts time objects (see the `lubridate` package).
+
+A few questions to consider:
+
+-   What is a logical name for this function? What is a logical name for the parameter it accepts?
+-   The purpose of this function is to print a message to the console, so its primary purpose is a **side effect**. However, all functions must return something. What would be a logical value for this function to return?
+-   Should the function have default behavior in case the user does not pass an argument?
+-   What would you like to happen if this function is passed the wrong data type (e.g., a negative number)?
+
+```{r, message=FALSE}
+library(lubridate)
+library(tidyverse)
+
+greet <- function(time = lubridate::now()) {
+  if(is.numeric(time)){
+    hr <- time
+  } else {
+    hr <- lubridate::hour(time)
+  }
+  if (hr < 1200) {
+    print("good morning")
+  } else if (hr < 1700) {
+    print("good afternoon")
+  } else if (hr < 2400) {
+    print("good evening")
+  } else {
+    print("give me something from 0 to 24")
+  }
+}
+greet()
+greet(0200)
+greet(1400)
+greet(2200)
+greet(2500)
+```
+
+# Loops
+
+-   Write a `for` loops that calculates the mean of each column of mtcars
+-   Write a function (using a for loop) that calculates the mean of all numeric columns of *any* data frame. This function should be able to accept data frames with non-numeric columns.
+
+```{r, message=FALSE}
+library(tidyverse)
+
+mtcars_mean <- vector("double", ncol(mtcars))
+names(mtcars_mean) <- names(mtcars)
+for (i in names(mtcars)) {
+  mtcars_mean[i] <- mean(mtcars[[i]])
+}
+mtcars_mean
+```
+
+```{r, message=FALSE}
+numeric_df <- select_if(diamonds, is.numeric)
+column_mean <- vector("double", ncol(numeric_df))
+for (i in seq_along(numeric_df)) {
+  column_mean[i] <- mean(numeric_df[[i]])
+}
+column_mean
+```
+
+## Why not loops
+
+In R, we generally encourage people to use vectorized functions instead of `for` loops. According to [your textbook](https://r4ds.had.co.nz/iteration.html), what is better about vectorized functions?
+
+-   Vectoring will calculate or carry out all the elements by itself without you having to tell it to. Loops you have to tell it element by element what to do and this is more prone to error.
